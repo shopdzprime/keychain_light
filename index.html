@@ -69,8 +69,8 @@ header svg{width:25px}
 .pitem .pinfo{display:flex;flex-direction:column;gap:2px}
 .pitem .pname{font-weight:bold;font-size:14px}
 .pitem .psub{font-size:11px;color:var(--soft)}
-.pitem .pold{color:#b2a493;text-decoration:line-through;font-size:11px;margin-inline-end:6px}
-.pitem .pnew{color:var(--accent-dark);font-weight:800;font-size:14px}
+.pitem .pold{color:#b2a493;text-decoration:line-through;font-size:12px;margin-top:2px}
+.pitem .pnew{color:var(--accent);font-weight:900;font-size:18px}
 .pitem .pqty{display:flex;align-items:center;gap:10px}
 .pitem .pqty button{width:30px;height:30px;border:0;border-radius:6px;background:var(--muted);font-size:18px;font-weight:bold;cursor:pointer;color:var(--primary-dark)}
 .sumline{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
@@ -97,7 +97,6 @@ input,select,textarea,button{font-size:16px}
 <div class="eyebrow">MERÉLEC ÉLECTRICITÉ</div>
 <h1>مروحة إضاءة LED متعددة الوظائف — تهوية وإنارة في جهاز واحد</h1>
 <div class="stock">الستوك محدود. احجز طلبك الآن</div>
-<div class="promo"><div class="promo-title">🔥 تخفيضات خاصة لغاية 10 سبتمبر فقط</div><div class="promo-sub">سعر مخفض لفترة محدودة</div><div class="countdown" id="countdown"></div></div>
 <div class="badges"><span class="badge">✓ ضمان 12 شهراً</span><span class="badge">▣ الدفع عند الاستلام</span><span class="badge">◉ معاينة قبل الدفع</span></div>
 <div class="perks"><span class="perk">🌸 معطر جو (Aromatherapy)</span><span class="perk">🌀 مروحة قوية</span><span class="perk">🔇 تشغيل بدون ضجيج</span><span class="perk">⚡ توفير طاقة 85%</span><span class="perk">💡 إضاءة قابلة للتعديل</span></div>
 <div class="gallery"><img id="mainImage" alt="مروحة إضاءة LED متعددة الوظائف" loading="eager" fetchpriority="high" decoding="async"><button class="nav prev" onclick="move(-1)" aria-label="الصورة السابقة">‹</button><button class="nav next" onclick="move(1)" aria-label="الصورة التالية">›</button></div>
@@ -152,7 +151,7 @@ setInterval(()=>move(1),5000);
 const productPrices={'قطعة واحدة':3200};
 const oldPrices={'قطعة واحدة':4900};
 const qtyMap={};Object.keys(productPrices).forEach(s=>qtyMap[s]=0);
-function renderSizePicker(){document.getElementById('productList').innerHTML=Object.keys(productPrices).map(s=>{const np=productPrices[s],op=oldPrices[s];return `<div class="pitem" id="pitem-${s}"><div class="pinfo"><span class="pname">مروحة إضاءة LED متعددة الوظائف</span><span class="psub">تركيب بديوي (E27) + ريموت تحكم</span><span>${op>np?`<span class="pold">${op.toLocaleString('fr-DZ')} دج</span>`:''}<span class="pnew">${np.toLocaleString('fr-DZ')} دج</span></span></div><div class="pqty"><button type="button" onclick="changeItemQty('${s}',-1)">−</button><b id="pqty-${s}">0</b><button type="button" onclick="changeItemQty('${s}',1)">+</button></div></div>`}).join('')}
+function renderSizePicker(){document.getElementById('productList').innerHTML=Object.keys(productPrices).map(s=>{const np=productPrices[s],op=oldPrices[s];return `<div class="pitem" id="pitem-${s}"><div class="pinfo"><span class="pname">مروحة إضاءة LED متعددة الوظائف</span><span class="psub">تركيب بديوي (E27) + ريموت تحكم</span><span style="display:flex;flex-direction:column"><span class="pnew">${np.toLocaleString('fr-DZ')} دج</span>${op>np?`<span class="pold">${op.toLocaleString('fr-DZ')} دج</span>`:''}</span></div><div class="pqty"><button type="button" onclick="changeItemQty('${s}',-1)">−</button><b id="pqty-${s}">0</b><button type="button" onclick="changeItemQty('${s}',1)">+</button></div></div>`}).join('')}
 function changeItemQty(s,n){qtyMap[s]=Math.max(0,qtyMap[s]+n);document.getElementById(`pqty-${s}`).textContent=qtyMap[s];document.getElementById(`pitem-${s}`).classList.toggle('selected',qtyMap[s]>0);update()}
 renderSizePicker();
 
@@ -176,22 +175,6 @@ function update(){
 function setDelivery(v){delivery=v;document.getElementById('home').classList.toggle('active',v==='home');document.getElementById('desk').classList.toggle('active',v==='desk');document.getElementById('deliveryHidden').value=(v==='home')?'توصيل للمنزل':'توصيل للمكتب';update()}
 select.onchange=update;update();
 
-// عداد تنازلي للعرض حتى 10 سبتمبر
-(function(){
-  const el=document.getElementById('countdown');
-  const end=new Date('2026-09-10T23:59:59');
-  function tick(){
-    const now=new Date();
-    let diff=end-now;
-    if(diff<=0){el.innerHTML='';return}
-    const d=Math.floor(diff/86400000);diff-=d*86400000;
-    const h=Math.floor(diff/3600000);diff-=h*3600000;
-    const m=Math.floor(diff/60000);diff-=m*60000;
-    const s=Math.floor(diff/1000);
-    el.innerHTML=`<div class="cbox">${d}<span>يوم</span></div><div class="cbox">${h}<span>ساعة</span></div><div class="cbox">${m}<span>دقيقة</span></div><div class="cbox">${s}<span>ثانية</span></div>`;
-  }
-  tick();setInterval(tick,1000);
-})();
 
 // إخفاء زر الطلب العائم عند وصول الزبون لنموذج الطلب
 (function(){
