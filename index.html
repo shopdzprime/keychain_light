@@ -148,7 +148,7 @@ render();
 setInterval(()=>move(1),5000);
 
 // ===== منتج واحد بسعر قبل/بعد التخفيض، مع اختيار الكمية =====
-const productPrices={'قطعة واحدة':3200};
+const productPrices={'قطعة واحدة':2700};
 const oldPrices={'قطعة واحدة':4900};
 const qtyMap={};Object.keys(productPrices).forEach(s=>qtyMap[s]=0);
 function renderSizePicker(){document.getElementById('productList').innerHTML=Object.keys(productPrices).map(s=>{const np=productPrices[s],op=oldPrices[s];return `<div class="pitem" id="pitem-${s}"><div class="pinfo"><span class="pname">مروحة إضاءة LED متعددة الوظائف</span><span class="psub">تركيب بديوي (E27) + ريموت تحكم</span><span style="display:flex;flex-direction:column"><span class="pnew">${np.toLocaleString('fr-DZ')} دج</span>${op>np?`<span class="pold">${op.toLocaleString('fr-DZ')} دج</span>`:''}</span></div><div class="pqty"><button type="button" onclick="changeItemQty('${s}',-1)">−</button><b id="pqty-${s}">0</b><button type="button" onclick="changeItemQty('${s}',1)">+</button></div></div>`}).join('')}
